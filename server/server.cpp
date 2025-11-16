@@ -41,6 +41,33 @@ void *get_in_addr(struct sockaddr *sa)
   return &(((struct sockaddr_in6 *)sa)->sin6_addr);
 }
 
+int send_message(int client_fd, char *msg)
+{
+  int flag = MSG_NOSIGNAL;
+  int msg_size = strlen(msg);
+  int total_sent_bytes = 0;
+  std::cout << "the total byte length of the message is: " << msg_size;
+  while (total_sent_bytes < msg_size)
+  {
+    int sent_bytes = 0;
+    sent_bytes = send(client_fd, msg, msg_size, flag);
+    if (sent_bytes == -1)
+    {
+      perror("during batch send");
+      return -1;
+    }
+
+    total_sent_bytes += sent_bytes;
+    std::cout << "total bytes sent are: " << total_sent_bytes;
+  }
+  // if (send(client_fd, msg, sizeof msg, flag) == -1) {
+  //   perror("sending msg to client");
+  //   return -1;
+  // }
+
+  return 0;
+}
+
 int server()
 {
   std::cout << "hello";
@@ -89,7 +116,8 @@ int server()
     int yes = 1;
     // char yes='1'; // Solaris people use this
     // lose the pesky "Address already in use" error message
-    if (setsockopt(socketfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof yes) == -1) {
+    if (setsockopt(socketfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof yes) == -1)
+    {
       perror("set socket options");
       exit(-1);
     }
@@ -135,19 +163,21 @@ int server()
     {
       printErr("accepting client");
       continue;
-      ;
     }
 
+    // not necessary, but this is how we get the client's ip address
     inet_ntop(client.ss_family,
               get_in_addr((struct sockaddr *)&client),
               client_ip, sizeof client_ip);
     printf("server: got connection from %s\n", client_ip);
 
     if (!fork())
-    {                // this is the child process
+    {                  // this is the child process
       close(socketfd); // child doesn't need the listener
-      if (send(clientfd, "Hello, world!", 13, 0) == -1)
-        perror("send");
+      if (send_message(clientfd, "Hello from server") == -1)
+        perror("send_message");
+      std::cout << "sending to the client socket descriptor";
+
       close(clientfd);
       exit(0);
     }
