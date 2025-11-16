@@ -45,12 +45,12 @@ int server()
    * reasons
    */
 
-  for (p = res; p != NULL; p = p->ai_next) {
-    struct in_addr client;
-    socklen_t client_size;
+  // for (p = res; p != NULL; p = p->ai_next) {
+  //   struct in_addr client;
+  //   socklen_t client_size;
 
-    inet_ntop()
-  }
+  //   inet_ntop()
+  // }
 
   // creating a socket
   int socketfd, clientfd;
@@ -71,8 +71,7 @@ int server()
   // now we need to accept incoming client requests
   struct sockaddr_storage client;
   socklen_t clientLength = sizeof client;
-  clientfd = accept(socketfd, (sockaddr *) &client, &clientLength);
-
+  clientfd = accept(socketfd, (sockaddr *)&client, &clientLength);
 
   // printing the ip address
   // for (p = res; p != NULL; p = p->ai_next)
