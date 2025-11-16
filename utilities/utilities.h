@@ -1,6 +1,6 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
-void printErr();
+void printErr(char *);
 
 #endif

@@ -3,9 +3,9 @@
 #include <cstring>
 #include <cerrno>
 
-void printErr()
+void printErr(char *label)
 {
     char errBuff[256];
     strerror_r(errno, errBuff, sizeof(errBuff));
-    printf("Error: %s\n", errBuff);
+    printf("Error at %s: %s\n", label, errBuff);
 }
