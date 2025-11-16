@@ -1,23 +1,34 @@
-CXX = g++
-CXXFLAGS = -Wall -Wextra -std=c++17 -I.
+CXX := g++
+CXXFLAGS := -Wall -Wextra -std=c++17 -Iglobals -Iutilities
 
-# Find all .cpp files in this directory and all subdirectories
-SOURCES = $(shell find . -name "*.cpp")
+# Directories
+SRV_DIR := server
+CLI_DIR := client
+UTIL_DIR := utilities
+GLB_DIR := globals
 
-# Convert .cpp filenames to .o filenames
-OBJECTS = $(SOURCES:.cpp=.o)
+# Source files
+UTIL_SRC := $(wildcard $(UTIL_DIR)/*.cpp)
+SERVER_SRC := $(SRV_DIR)/server.cpp $(UTIL_SRC)
+CLIENT_SRC := $(CLI_DIR)/client.cpp $(UTIL_SRC)
 
-# Output executable
-TARGET = myProgram
+# Output binaries
+SERVER_BIN := myServer
+CLIENT_BIN := myClient
 
-all: $(TARGET)
+# Default target
+all: $(SERVER_BIN) $(CLIENT_BIN)
 
-$(TARGET): $(OBJECTS)
-	$(CXX) $(OBJECTS) -o $(TARGET)
+# Build server
+$(SERVER_BIN): $(SERVER_SRC)
+	$(CXX) $(CXXFLAGS) -o $@ $^
 
-# Rule to compile each .cpp into .o
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+# Build client
+$(CLIENT_BIN): $(CLIENT_SRC)
+	$(CXX) $(CXXFLAGS) -o $@ $^
 
+# Cleanup
 clean:
-	rm -f $(OBJECTS) $(TARGET)
+	rm -f $(SERVER_BIN) $(CLIENT_BIN)
+
+.PHONY: all clean

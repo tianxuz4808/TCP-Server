@@ -1,6 +1,6 @@
 #include "server.h"
-#include "globals/globals.h"
-#include "utilities/utilities.h"
+#include "globals.h"
+#include "utilities.h"
 #include <iostream>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -209,4 +209,8 @@ int server()
   freeaddrinfo(res);
 
   return 0;
+}
+
+int main() {
+  server();
 }
