@@ -41,33 +41,6 @@ void *get_in_addr(struct sockaddr *sa)
   return &(((struct sockaddr_in6 *)sa)->sin6_addr);
 }
 
-int send_message(int client_fd, char *msg)
-{
-  int flag = MSG_NOSIGNAL;
-  int msg_size = strlen(msg);
-  int total_sent_bytes = 0;
-  std::cout << "the total byte length of the message is: " << msg_size;
-  while (total_sent_bytes < msg_size)
-  {
-    int sent_bytes = 0;
-    sent_bytes = send(client_fd, msg, msg_size, flag);
-    if (sent_bytes == -1)
-    {
-      perror("during batch send");
-      return -1;
-    }
-
-    total_sent_bytes += sent_bytes;
-    std::cout << "total bytes sent are: " << total_sent_bytes;
-  }
-  // if (send(client_fd, msg, sizeof msg, flag) == -1) {
-  //   perror("sending msg to client");
-  //   return -1;
-  // }
-
-  return 0;
-}
-
 int server()
 {
   std::cout << "hello";
@@ -178,6 +151,16 @@ int server()
         perror("send_message");
       std::cout << "sending to the client socket descriptor";
 
+      std::cout << "waiting to recieve message from this client";
+      int bytes_received;
+      char msg_received_buff[1024];
+      bytes_received = recv(clientfd, msg_received_buff, sizeof msg_received_buff, MSG_WAITALL);
+      if (bytes_received == - 1) {
+        perror("error receiving client msg");
+      }
+      std::cout << "the byetes_received are " << bytes_received;
+      std::cout << "the message received from the client is: " << msg_received_buff;
+
       close(clientfd);
       exit(0);
     }
@@ -211,6 +194,7 @@ int server()
   return 0;
 }
 
-int main() {
+int main()
+{
   server();
 }

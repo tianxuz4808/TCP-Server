@@ -13,8 +13,8 @@ SERVER_SRC := $(SRV_DIR)/server.cpp $(UTIL_SRC)
 CLIENT_SRC := $(CLI_DIR)/client.cpp $(UTIL_SRC)
 
 # Output binaries
-SERVER_BIN := myServer
-CLIENT_BIN := myClient
+SERVER_BIN := server_exe
+CLIENT_BIN := client_exe
 
 # Default target
 all: $(SERVER_BIN) $(CLIENT_BIN)

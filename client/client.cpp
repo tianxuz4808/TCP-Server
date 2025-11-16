@@ -6,6 +6,7 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <iostream>
+#include <string.h>
 
 int main()
 {
@@ -52,13 +53,27 @@ int client()
         break;
     }
 
-    char *msg = "Beej was here!";
-    int len, bytes_sent;
-    len = strlen(msg);
-    bytes_sent = send(socketfd, msg, len, 0);
-    if (bytes_sent == -1)
-        perror("error sending client message to server");
-    std::cout << "num bytes sent are: " << bytes_sent;
+    // char *msg = "Beej was here!";
+    // int len, bytes_sent;
+    // len = strlen(msg);
+    // bytes_sent = send(socketfd, msg, len, 0);
+    // if (bytes_sent == -1)
+    //     perror("error sending client message to server");
+    // std::cout << "num bytes sent are: " << bytes_sent;
+
+    // while (1) {
+    // GET USER INPUT FROM STDOUT
+    std::string client_msg;
+    std::cout << "enter your message";
+    std::getline(std::cin, client_msg);
+
+    // send the message to server
+    int bytes_sent;
+    // bytes_sent = send(socketfd, client_msg.c_str(), strlen(client_msg.c_str()), MSG_DONTWAIT);
+    send_message(socketfd, client_msg.c_str());
+
+
+    // }
 
     return 0;
 }
