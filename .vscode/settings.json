@@ -3,6 +3,7 @@
         "iostream": "cpp",
         "string": "cpp",
         "cstring": "cpp",
-        "cstdio": "cpp"
+        "cstdio": "cpp",
+        "locale": "cpp"
     }
 }

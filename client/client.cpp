@@ -7,6 +7,7 @@
 #include <netdb.h>
 #include <iostream>
 #include <string.h>
+#include <unistd.h>
 
 int main()
 {
@@ -72,6 +73,7 @@ int client()
     // bytes_sent = send(socketfd, client_msg.c_str(), strlen(client_msg.c_str()), MSG_DONTWAIT);
     send_message(socketfd, client_msg.c_str());
 
+    close(socketfd);
 
     // }
 

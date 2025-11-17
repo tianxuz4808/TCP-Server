@@ -7,9 +7,24 @@
 
 void printErr(char *label)
 {
-    char errBuff[256];
-    strerror_r(errno, errBuff, sizeof(errBuff));
-    printf("Error at %s: %s\n", label, errBuff);
+  char errBuff[256];
+  strerror_r(errno, errBuff, sizeof(errBuff));
+  printf("Error at %s: %s\n", label, errBuff);
+}
+
+int receive_message_poll(int receive_from_fd, char buff[], const int buff_size)
+{
+  int flag = MSG_WAITALL;
+  std:: cout << "size of buffer is: " << buff_size << "\n";
+  int total_bytes_received;
+  while ((total_bytes_received = recv(receive_from_fd, buff, buff_size, flag)) > 0)
+  {
+    std::cout << "total bytes received was: " << total_bytes_received;
+  }
+
+  std::cout << "bal bal received: " << buff;
+
+  std::cout << "the client has closed the connection";
 }
 
 int send_message(int send_to_fd, const char *msg)

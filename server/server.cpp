@@ -152,14 +152,18 @@ int server()
       std::cout << "sending to the client socket descriptor";
 
       std::cout << "waiting to recieve message from this client";
-      int bytes_received;
-      char msg_received_buff[1024];
-      bytes_received = recv(clientfd, msg_received_buff, sizeof msg_received_buff, MSG_WAITALL);
-      if (bytes_received == - 1) {
-        perror("error receiving client msg");
-      }
-      std::cout << "the byetes_received are " << bytes_received;
-      std::cout << "the message received from the client is: " << msg_received_buff;
+      const int buff_size = 1024;
+      char msg_received_buff[buff_size];
+      receive_message_poll(clientfd, msg_received_buff, buff_size);
+      std:: cout << "the msg recieved from the client is: " << msg_received_buff;
+      // int bytes_received;
+      // bytes_received = recv(clientfd, msg_received_buff, sizeof msg_received_buff, MSG_WAITALL);
+      // if (bytes_received == -1)
+      // {
+      //   perror("error receiving client msg");
+      // }
+      // std::cout << "the bytes_received are " << bytes_received;
+      // std::cout << "the message received from the client is: " << msg_received_buff;
 
       close(clientfd);
       exit(0);
